@@ -20,7 +20,7 @@ router.get('/unpaid', getProfile, async (req, res) => {
             }
         ],
         where: {
-            paid: { [Op.not]: 'true' }
+            paid: { [Op.not]: true }
         }
     })
     if (!jobs) return res.status(404).end()
