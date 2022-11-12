@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { Op } = require("sequelize");
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
@@ -33,7 +34,16 @@ Profile.init(
   }
 );
 
-class Contract extends Sequelize.Model {}
+class Contract extends Sequelize.Model {
+  static queryContractByProfileId(profileId) {
+    return {
+        [Op.or]: [
+            {ClientId: profileId},
+            {ContractorId : profileId}
+        ]
+    }
+  }
+}
 Contract.init(
   {
     terms: {

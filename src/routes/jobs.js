@@ -2,7 +2,7 @@ var router = require('express').Router()
 const { Op } = require("sequelize")
 const {getProfile} = require('../middleware/getProfile')
 
-router.get('/unpaid',getProfile ,async (req, res) =>{
+router.get('/unpaid',getProfile ,async (req, res) => {
     const {Contract, Job} = req.app.get('models')
     const jobs = await Job.findAll({
         include: [
@@ -13,12 +13,7 @@ router.get('/unpaid',getProfile ,async (req, res) =>{
                 where: {
                     [Op.and]: [
                         {status: 'in_progress'},
-                        {
-                            [Op.or]: [
-                                {ClientId: req.get('profile_id')},
-                                {ContractorId : req.get('profile_id')}
-                            ]
-                        }
+                        Contract.queryContractByProfileId(req.get('profile_id'))
                     ]
                 }
             }

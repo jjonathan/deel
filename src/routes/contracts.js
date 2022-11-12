@@ -8,13 +8,8 @@ router.get('/:id',getProfile ,async (req, res) =>{
     const contract = await Contract.findOne({
         where: {
             [Op.and]: [
-                {id: id},
-                {
-                    [Op.or]: [
-                        {ClientId: req.get('profile_id')},
-                        {ContractorId : req.get('profile_id')}
-                    ]
-                }
+                Contract.queryContractByProfileId(req.get('profile_id')),
+                {id: id}
             ]
         }
     })
@@ -28,12 +23,7 @@ router.get('/',getProfile ,async (req, res) =>{
         where: {
             [Op.and]: [
                 {status: {[Op.not]: 'terminated'}},
-                {
-                    [Op.or]: [
-                        {ClientId: req.get('profile_id')},
-                        {ContractorId : req.get('profile_id')}
-                    ]
-                }
+                Contract.queryContractByProfileId(req.get('profile_id'))
             ]
         }
     })
