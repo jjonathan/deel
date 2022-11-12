@@ -1,6 +1,9 @@
 #MacOS
 .DS_Store
 
+#database
+database.sqlite3
+
 # Logs
 logs
 *.log
